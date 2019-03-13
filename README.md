@@ -1,0 +1,3 @@
+# matlab-helper
+
+Collection of Matlab helper scripts and snippets ...
