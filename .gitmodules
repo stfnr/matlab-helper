@@ -1,0 +1,3 @@
+[submodule "3rd/MatlabProgressBar"]
+	path = 3rd/MatlabProgressBar
+	url = https://github.com/JAAdrian/MatlabProgressBar.git
