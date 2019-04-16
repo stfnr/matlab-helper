@@ -27,36 +27,6 @@ function [ Y ] = maxnd( X , DIM )
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Xsiz = size( X );
-
-if max(DIM) > length(Xsiz)
-    Xsiz(end+1:max(DIM)) = 1;
-end
-
-Ysiz = Xsiz;
-Ysiz(DIM) = 1;
-
-% get non max dimensions nDIM
-nDIM = 1:ndims( X );
-
-for id = 1:length( DIM )
-    nDIM( nDIM == DIM(id) ) = [];
-end
-
-% ensure nDIM is not empty
-if isempty(nDIM)
-    % assume an additional dimension and set it to 1
-    nDIM = ndims( X ) + 1;
-    Xsiz(nDIM) = 1;
-end
-
-% permute non max dimensions as first dimensions
-Y = permute(X, [nDIM DIM]);
-% reshape so all max dimensions are collapsed in the last dimension
-Y = reshape(Y, [Xsiz(nDIM) prod(Xsiz(DIM))]);
-% get smallest component along the last dimension
-Y = max(Y, [], length(Xsiz(nDIM)) + 1);
-% reshape back with max dimensions as singletons
-Y = reshape(Y, Ysiz);
+Y = fhnd( @(x,d) max(x,[],d), X, DIM);
 
 end
