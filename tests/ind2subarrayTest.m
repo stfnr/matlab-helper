@@ -3,6 +3,30 @@ classdef ind2subarrayTest < matlab.unittest.TestCase
     % tests can be run via
     %   >> ind2subarrayTests = matlab.unittest.TestSuite.fromClass(?ind2subarrayTest);
     %   >> result = run(ind2subarrayTests);
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %
+    % Created:	Apr 4, 2019
+    %
+    % Revisions:    0.1 (Apr 4, 2019)
+    %					Initial version.
+    %
+    % Authors: 
+    %
+    %   stefan.ruschke@tum.de
+    % 
+    % --------------------------------
+    %
+    % Body Magnetic Resonance Research Group
+    % Department of Diagnostic and Interventional Radiology
+    % Technical University of Munich
+    % Klinikum rechts der Isar
+    % 22 Ismaninger St., 81675 Munich
+    % 
+    % https://www.bmrr.de
+    %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     methods (Test)
         function testInputOutputSolution(testCase)
