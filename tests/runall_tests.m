@@ -25,6 +25,10 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+TESTS_DIR = fileparts(fileparts(mfilename('fullpath')));
+
+addpath(genpath(TESTS_DIR))
+
 import matlab.unittest.TestRunner
 import matlab.unittest.Verbosity
 import matlab.unittest.plugins.CodeCoveragePlugin
@@ -32,11 +36,10 @@ import matlab.unittest.plugins.XMLPlugin
 import matlab.unittest.plugins.codecoverage.CoberturaFormat
 import matlab.unittest.TestSuite;
 
-name = "matlab-helper";
-
-TESTS_DIR = fileparts(fileparts(mfilename('fullpath')));
-suite = TestSuite.fromFolder(TESTS_DIR, 'IncludingSubfolders', true); 
+%name = "matlab-helper";
 %suite = testsuite(name);
+suite = TestSuite.fromFolder(TESTS_DIR, 'IncludingSubfolders', true); 
+
 runner = TestRunner.withTextOutput('OutputDetail', Verbosity.Detailed);
 
 mkdir('code-coverage');
@@ -44,7 +47,6 @@ mkdir('test-results');
 
 runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
 runner.addPlugin(matlab.unittest.plugins.CodeCoveragePlugin.forFolder(TESTS_DIR, 'Producing', CoberturaFormat('code-coverage/coverage.xml'), 'IncludingSubfolders', true));
-
 
 results = runner.run(suite);
 
@@ -56,4 +58,7 @@ disp('==========================================================================
 
 assert(~isempty(results), "no tests found")
 
-assertSuccess(results)
+if ~verLessThan('matlab', '9.8')
+    % assertSuccess available since R2020a
+    assertSuccess(results)
+end
