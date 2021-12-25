@@ -1,0 +1,26 @@
+# matlab-helper pipeline
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: InstallMATLAB@0
+  inputs:
+    release: '2018b'
+- task: RunMATLABTests@0
+  inputs:
+    testResultsJUnit: 'results.xml'
+    codeCoverageCobertura: 'coverage.xml'
+- task: PublishTestResults@2
+  condition: always()
+  inputs:
+    testResultsFormat: JUnit
+    testResultsFiles: 'results.xml'
+- task: PublishCodeCoverageResults@1
+  condition: always()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: 'coverage.xml'
