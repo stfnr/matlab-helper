@@ -25,17 +25,35 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+import matlab.unittest.TestRunner
+import matlab.unittest.Verbosity
+import matlab.unittest.plugins.CodeCoveragePlugin
+import matlab.unittest.plugins.XMLPlugin
+import matlab.unittest.plugins.codecoverage.CoberturaFormat
 import matlab.unittest.TestSuite;
 
+name = "matlab-helper";
+
 TESTS_DIR = fileparts(fileparts(mfilename('fullpath')));
+suite = TestSuite.fromFolder(TESTS_DIR, 'IncludingSubfolders', true); 
+%suite = testsuite(name);
+runner = TestRunner.withTextOutput('OutputDetail', Verbosity.Detailed);
 
-test_suite = TestSuite.fromFolder(TESTS_DIR, 'IncludingSubfolders', true);
+mkdir('code-coverage');
+mkdir('test-results');
 
-test_suite_result = run(test_suite);
+runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
+runner.addPlugin(CodeCoveragePlugin.forPackage(name, 'Producing', CoberturaFormat('code-coverage/coverage.xml')));
+
+
+results = runner.run(suite);
 
 disp('================================================================================================================')
 disp('Results')
 disp('================================================================================================================')
-disp(table(test_suite_result))
+disp(table(results))
 disp('================================================================================================================')
+
+assert(~isempty(results), "no tests found")
+
+assertSuccess(results)
