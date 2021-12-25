@@ -28,7 +28,7 @@
 
 import matlab.unittest.TestSuite;
 
-TESTS_DIR = fileparts(mfilename('fullpath'));
+TESTS_DIR = fileparts(fileparts(mfilename('fullpath')));
 
 test_suite = TestSuite.fromFolder(TESTS_DIR, 'IncludingSubfolders', true);
 
