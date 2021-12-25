@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        matlab: ['R2020a', 'R2020b']
+        matlab: [R2020a, R2020b]
     env:
       OS: ${{ matrix.os }}
       MATLAB: ${{ matrix.matlab }}
@@ -17,7 +17,7 @@ jobs:
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
         with:
-          release: ${{ MATLAB }}
+          release: ${{ matrix.matlab }}
       - name: Run tests and generate artifacts
         uses: matlab-actions/run-tests@v1
         with:
