@@ -17,7 +17,7 @@ jobs:
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
         with:
-          release: MATLAB
+          release: ${{ MATLAB }}
       - name: Run tests and generate artifacts
         uses: matlab-actions/run-tests@v1
         with:
