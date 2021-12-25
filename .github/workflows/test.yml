@@ -28,11 +28,11 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          directory: ./code-coverage
+          directory: ./code-coverage/reports/
           env_vars: OS,MATLAB
           fail_ci_if_error: true
-          files: ./coverage.xml
-          flags: unittests
+          files: ./code-coverage/coverage.xml, ./test-results/results.xml
+          flags: cobertura, unittests
           name: matlab-helper
           path_to_write_report: ./code-coverage/codecov_report.txt
           verbose: true
