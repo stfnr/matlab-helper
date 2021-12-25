@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
+        with:
+          release: R2020b
       - name: Run tests and generate artifacts
         uses: matlab-actions/run-tests@v1
         with:
