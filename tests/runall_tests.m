@@ -43,7 +43,7 @@ mkdir('code-coverage');
 mkdir('test-results');
 
 runner.addPlugin(XMLPlugin.producingJUnitFormat('test-results/results.xml'));
-runner.addPlugin(CodeCoveragePlugin.forPackage(name, 'Producing', CoberturaFormat('code-coverage/coverage.xml')));
+runner.addPlugin(matlab.unittest.plugins.CodeCoveragePlugin.forFolder(TESTS_DIR, 'Producing', CoberturaFormat('code-coverage/coverage.xml'), 'IncludingSubfolders', true));
 
 
 results = runner.run(suite);
