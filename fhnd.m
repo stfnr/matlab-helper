@@ -1,15 +1,16 @@
 function [ Y ] = fhnd( fh, X , DIM )
 %FHND perform function along multiple dimensions.
-%   Y = fhnd( @(x,d) min(x,[],d), rand(3,3,3,3,3), [1 3 5]) will perform 
-%   the min function along the dimensions 1, 3 and 5. The resulting array
-%   will be of size [1 3 1 3 1].
+%   Y = fhnd( @(x,d) min(x,[],d), rand(3,3,3,3,3), [1 3 5]) will for 
+%   example perform the min function along the dimensions 1, 3 and 5. The 
+%   resulting array Y will be of size [1 3 1 3 1].
 %
 %       fh:  function handle that needs to accept two arguments: X and a 
 %            single dimension along which it will be performed. 
 %       X:   data array to be used
 %       DIM: dimension vector along which dimensions fh shall be performed
 %
-%   See also maxnd, minnd
+%   See also maxnd, minnd, meannd
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -43,7 +44,7 @@ end
 Ysiz = Xsiz;
 Ysiz(DIM) = 1;
 
-% get non mean dimensions nDIM
+% get non function dimensions nDIM
 nDIM = 1:ndims( X );
 
 for id = 1:length( DIM )
@@ -57,13 +58,13 @@ if isempty(nDIM)
     Xsiz(nDIM) = 1;
 end
 
-% permute non mean dimensions as first dimensions
+% permute all other dimensions as first dimensions
 Y = permute(X, [nDIM DIM]);
-% reshape so all mean dimensions are collapsed in the last dimension
+% reshape so all function dimensions are collapsed in the last dimension
 Y = reshape(Y, [Xsiz(nDIM) prod(Xsiz(DIM))]);
 % get smallest component along the last dimension
 Y = fh(Y, length(Xsiz(nDIM)) + 1);
-% reshape back with mean dimensions as singletons
+% reshape back with function dimensions as singletons
 Y = reshape(Y, Ysiz);
 
 end
