@@ -38,5 +38,3 @@ jobs:
           name: matlab-helper
           path_to_write_report: ./code-coverage/codecov_report.txt
           verbose: true
-          ignore:
-            - "3rd"
