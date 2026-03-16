@@ -29,6 +29,7 @@ function shutdownParpool()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 poolobj = gcp('nocreate');
+
 if ~isempty(poolobj)
     delete(poolobj);
 end

@@ -1,6 +1,13 @@
-function [ x ] = minn( x )
+function [ y, I ] = minn( x )
 %MINN finds minimum value in a N-dimensional array
-%   Equivalent to min(x(:))
+%   [Y, I] = MINN(X) returns the minimum value Y and its linear index I.
+%   Equivalent to [y, I] = min(x(:)).
+%
+%   Example:
+%       [y, I] = minn([5, 1, 3, 2])
+%       % Returns y = 1, I = 2
+%
+%   See also MIN, MAXN.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9,6 +16,8 @@ function [ x ] = minn( x )
 %
 % Revisions:    0.1 (Apr 15, 2019)
 %					Initial version.
+%               0.2 (Mar 16, 2026)
+%                   Fixed documentation typo, added index return value.
 %
 % Authors: 
 %
@@ -26,7 +35,12 @@ function [ x ] = minn( x )
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-x = min(x(:));
-
+% Handle empty arrays specially - min() doesn't support two outputs for empty
+if isempty(x)
+    y = [];
+    I = [];
+else
+    [y, I] = min(x(:));
 end
 
+end

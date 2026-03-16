@@ -1,6 +1,14 @@
 function [ y, I ] = maxn( x )
 %MAXN finds maximum value in a N-dimensional array
-%   Equivalent to max(x(:))
+%   [Y, I] = MAXN(X) returns the maximum value Y and its linear index I.
+%   Equivalent to [y, I] = max(x(:)).
+%
+%   Example:
+%       [y, I] = maxn([1, 5, 3, 2])
+%       % Returns y = 5, I = 2
+%
+%   See also MAX, MINN.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -8,6 +16,8 @@ function [ y, I ] = maxn( x )
 %
 % Revisions:    0.1 (Apr 15, 2019)
 %					Initial version.
+%               0.2 (Mar 16, 2026)
+%                   Documented index return value.
 %
 % Authors: 
 %
@@ -25,6 +35,12 @@ function [ y, I ] = maxn( x )
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[y, I] = max(x(:));
+% Handle empty arrays specially - max() doesn't support two outputs for empty
+if isempty(x)
+    y = [];
+    I = [];
+else
+    [y, I] = max(x(:));
+end
 
 end

@@ -11,6 +11,9 @@ classdef minndTest < matlab.unittest.TestCase
     %
     % Revisions:    0.1 (Apr 15, 2019)
     %					Initial version.
+    %               0.2 (Mar 16, 2026)
+    %                   Added edge case tests (single element, empty, complex, negative).
+    %                   Added NaN/Inf and sparse matrix tests.
     %
     % Authors:
     %
@@ -206,6 +209,74 @@ classdef minndTest < matlab.unittest.TestCase
                 end
             end
             
+        end
+        
+        function testSingleElement(testCase)
+            % Test with single element array
+            actSolution = minnd(5, 1);
+            testCase.verifyEqual(actSolution, 5);
+        end
+        
+        function testEmptyArray(testCase)
+            % Test with empty array
+            actSolution = minnd([], 1);
+            testCase.verifyEqual(actSolution, []);
+        end
+        
+        function testComplexNumbers(testCase)
+            % Test with complex numbers
+            X = rand(3,3) + 1i * rand(3,3);
+            actSolution = minnd(X, 1);
+            expSolution = min(X, [], 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testNegativeValues(testCase)
+            % Test with negative values
+            X = -rand(3,4);
+            actSolution = minnd(X, 1);
+            expSolution = min(X, [], 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testAllSameValues(testCase)
+            % Test with all same values
+            X = ones(3,4,5);
+            actSolution = minnd(X, [1, 2]);
+            testCase.verifyEqual(actSolution, ones(1,1,5));
+        end
+        
+        function testNaNValues(testCase)
+            % Test with NaN values
+            X = [1, NaN, 3; 4, 5, 6];
+            actSolution = minnd(X, 1);
+            expSolution = min(X, [], 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testInfValues(testCase)
+            % Test with Inf values
+            X = [1, Inf, -Inf; 4, 5, 6];
+            actSolution = minnd(X, 1);
+            expSolution = min(X, [], 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testSparseMatrix(testCase)
+            % Test with sparse matrix
+            X = sparse(10, 10);
+            X(5, 5) = 10;
+            X(3, 7) = -5;
+            actSolution = minnd(X, 1);
+            testCase.verifyEqual(actSolution, min(X, [], 1));
+        end
+        
+        function testIntegerTypes(testCase)
+            % Test with integer types
+            X = int8([1, 5, 3; 2, 4, 6]);
+            actSolution = minnd(X, 1);
+            expSolution = min(X, [], 1);
+            testCase.verifyEqual(actSolution, expSolution);
         end
     end
     

@@ -10,7 +10,11 @@ classdef meanndTest < matlab.unittest.TestCase
     % Created:	Apr 15, 2019
     %
     % Revisions:    0.1 (Apr 15, 2019)
-    %					Initial version.
+%					Initial version.
+%               0.2 (Mar 16, 2026)
+%                   Added edge case tests (single element, empty, complex, negative).
+%               0.3 (Mar 16, 2026)
+%                   Added NaN/Inf and sparse matrix tests.
     %
     % Authors:
     %
@@ -67,6 +71,76 @@ classdef meanndTest < matlab.unittest.TestCase
                 end
             end
             
+        end
+        
+        function testSingleElement(testCase)
+            % Test with single element array
+            actSolution = meannd(5, 1);
+            testCase.verifyEqual(actSolution, 5);
+        end
+        
+        function testEmptyArray(testCase)
+            % Test with empty array
+            actSolution = meannd([], 1);
+            % meannd returns empty array for empty input
+            testCase.verifyEqual(actSolution, []);
+        end
+        
+        function testComplexNumbers(testCase)
+            % Test with complex numbers
+            X = rand(3,3) + 1i * rand(3,3);
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testNegativeValues(testCase)
+            % Test with negative values
+            X = -rand(3,4);
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testAllSameValues(testCase)
+            % Test with all same values
+            X = ones(3,4,5);
+            actSolution = meannd(X, [1, 2]);
+            testCase.verifyEqual(actSolution, ones(1,1,5));
+        end
+        
+        function testNaNValues(testCase)
+            % Test with NaN values
+            X = [1, NaN, 3; 4, 5, 6];
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testInfValues(testCase)
+            % Test with Inf values
+            X = [1, Inf, -Inf; 4, 5, 6];
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution);
+        end
+        
+        function testSparseMatrix(testCase)
+            % Test with sparse matrix
+            X = sparse(10, 10);
+            X(5, 5) = 10;
+            X(3, 7) = 5;
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution, 'AbsTol', 1e-10);
+        end
+        
+        function testIntegerTypes(testCase)
+            % Test with integer types
+            X = int8([1, 2, 3; 4, 5, 6]);
+            actSolution = meannd(X, 1);
+            expSolution = mean(X, 1);
+            testCase.verifyEqual(actSolution, expSolution);
         end
     end
     
