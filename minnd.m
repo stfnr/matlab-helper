@@ -1,8 +1,15 @@
 function [ Y ] = minnd( X , DIM )
 %MINND smallest component along multiple dimensions.
-%   Detailed explanation goes here
+%   Y = minnd(X, DIM) returns the smallest components along the
+%   dimensions specified by DIM.
 %
-%   See also maxnd, meannd
+%       X:   data array to be used
+%       DIM: dimension vector along which dimensions min shall be performed
+%
+%   Example:
+%       Y = minnd(rand(3,3,3,3,3), [1 3 5]) returns an array of size [1 3 1 3 1]
+%
+%   See also maxnd, meannd, fhnd
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

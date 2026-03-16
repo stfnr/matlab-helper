@@ -18,6 +18,8 @@ function [ Y ] = fhnd( fh, X , DIM )
 %
 % Revisions:    0.1 (Apr 15, 2019)
 %					Initial version.
+%               0.2 (Mar 16, 2026)
+%                   Added input validation for improved robustness.
 %
 % Authors: 
 %
@@ -34,6 +36,39 @@ function [ Y ] = fhnd( fh, X , DIM )
 % https://www.bmrr.de
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Input validation
+if nargin < 3
+    error('fhnd:InsufficientInputs', 'Function requires fh, X, and DIM inputs.');
+end
+
+if ~isa(fh, 'function_handle')
+    error('fhnd:InvalidInput', 'First argument must be a function handle.');
+end
+
+if ~isnumeric(X)
+    error('fhnd:InvalidInput', 'Second argument X must be a numeric array.');
+end
+
+if ~isnumeric(DIM) || ~isvector(DIM)
+    error('fhnd:InvalidInput', 'DIM must be a numeric vector.');
+end
+
+DIM = DIM(:)';  % Ensure row vector
+
+if any(DIM <= 0) || any(~isfinite(DIM)) || any(mod(DIM, 1) ~= 0)
+    error('fhnd:InvalidDimension', 'DIM must contain positive integers.');
+end
+
+if any(diff(sort(DIM)) == 0)
+    error('fhnd:DuplicateDimension', 'DIM must not contain duplicate values.');
+end
+
+% Handle empty array case
+if isempty(X)
+    Y = [];
+    return;
+end
 
 Xsiz = size( X );
 

@@ -39,12 +39,16 @@ fprintf('  %s%s\n', 'Release: ', ['R' version('-release')])
 fprintf('  %s%s\n', 'Version: ', version)
 fprintf('%s\n', 'JAVA: ')
 fprintf('  %s%s\n', 'Version: ', version('-java'))
-gitnfo = getGitInfo;
 fprintf('%s\n', 'Git: ')
-fprintf('  %s%s\n', 'branch: ', gitnfo.branch)
-fprintf('  %s%s\n', 'hash: ', gitnfo.hash)
-fprintf('  %s%s\n', 'remote name: ', gitnfo.remote)
-fprintf('  %s%s\n', 'remote url: ', gitnfo.url)
+try
+    gitnfo = getGitInfo;
+    fprintf('  %s%s\n', 'branch: ', gitnfo.branch)
+    fprintf('  %s%s\n', 'hash: ', gitnfo.hash)
+    fprintf('  %s%s\n', 'remote name: ', gitnfo.remote)
+    fprintf('  %s%s\n', 'remote url: ', gitnfo.url)
+catch
+    fprintf('  %s\n', 'Git information not available');
+end
 
 end
 

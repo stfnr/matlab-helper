@@ -1,8 +1,15 @@
 function [ Y ] = maxnd( X , DIM )
 %MAXND largest component along multiple dimensions.
-%   Detailed explanation goes here
-%   
-%   See also minnd, meannd
+%   Y = maxnd(X, DIM) returns the largest components along the
+%   dimensions specified by DIM.
+%
+%       X:   data array to be used
+%       DIM: dimension vector along which dimensions max shall be performed
+%
+%   Example:
+%       Y = maxnd(rand(3,3,3,3,3), [1 3 5]) returns an array of size [1 3 1 3 1]
+%
+%   See also minnd, meannd, fhnd
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

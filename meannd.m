@@ -1,8 +1,15 @@
 function [ Y ] = meannd( X , DIM )
 %MEANND mean along multiple dimensions.
-%   Detailed explanation goes here
+%   Y = meannd(X, DIM) returns the mean along the
+%   dimensions specified by DIM.
 %
-%   See also maxnd, minnd
+%       X:   data array to be used
+%       DIM: dimension vector along which dimensions mean shall be performed
+%
+%   Example:
+%       Y = meannd(rand(3,3,3,3,3), [1 3 5]) returns an array of size [1 3 1 3 1]
+%
+%   See also maxnd, minnd, fhnd
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

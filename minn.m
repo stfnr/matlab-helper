@@ -1,5 +1,5 @@
 function [ x ] = minn( x )
-%MINN finds maximum value in a N-dimensional array
+%MINN finds minimum value in a N-dimensional array
 %   Equivalent to min(x(:))
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
