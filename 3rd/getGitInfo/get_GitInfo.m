@@ -75,10 +75,15 @@ end
 
 %Read in the HEAD information, this will tell us the location of the file
 %containing the SHA1
-text=fileread([git_path '.git/HEAD']);
+try
+    text = fileread([git_path '.git/HEAD']);
+catch
+    % Cannot read HEAD file
+    return
+end
 parsed=textscan(text,'%s');
 
-if ~strcmp(parsed{1}{1},'ref:') || ~length(parsed{1})>1
+if isempty(parsed{1}) || ~strcmp(parsed{1}{1},'ref:') || length(parsed{1}) < 2
         %the HEAD is not in the expected format.
         %give up
         return
@@ -93,13 +98,59 @@ gitInfo.branch=branchName;
 
 
 %Read in SHA1
-SHA1text=fileread(fullfile([git_path '.git/' pathstr],[name ext]));
-SHA1=textscan(SHA1text,'%s');
-gitInfo.hash=SHA1{1}{1};
+SHA1hash = '';
+sha1FilePath = fullfile(git_path, '.git', pathstr, [name ext]);
+try
+    if exist(sha1FilePath, 'file')
+        SHA1text = fileread(sha1FilePath);
+        SHA1 = textscan(SHA1text, '%s');
+        if ~isempty(SHA1{1})
+            SHA1hash = SHA1{1}{1};
+        end
+    end
+catch
+    % File read failed, try packed-refs as fallback
+end
+
+% If SHA1 not found in refs/heads, try packed-refs file
+if isempty(SHA1hash)
+    try
+        packedRefsPath = fullfile(git_path, '.git', 'packed-refs');
+        if exist(packedRefsPath, 'file')
+            packedRefsContent = fileread(packedRefsPath);
+            % Look for the branch ref in packed-refs
+            refPattern = sprintf('refs/heads/%s', branchName);
+            lines = strsplit(packedRefsContent, '\n');
+            for i = 1:length(lines)
+                line = strtrim(lines{i});
+                if endsWith(line, refPattern)
+                    parts = strsplit(line);
+                    if ~isempty(parts)
+                        SHA1hash = parts{1};
+                        break;
+                    end
+                end
+            end
+        end
+    catch
+        % packed-refs read failed, continue with empty hash
+    end
+end
+
+if ~isempty(SHA1hash)
+    gitInfo.hash = SHA1hash;
+end
 
 
 %Read in config file
-config=fileread(fullfile([git_path '.git/config']));
+configPath = fullfile(git_path, '.git', 'config');
+if ~exist(configPath, 'file')
+    gitInfo.remote = '';
+    gitInfo.url = '';
+    return;
+end
+config = fileread(configPath);
+
 %Find everything space delimited
 temp=textscan(config,'%s','delimiter','\n');
 lines=temp{1};
